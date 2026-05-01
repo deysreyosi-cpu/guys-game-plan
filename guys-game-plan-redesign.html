@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Guy's Game Plan — A Flood of Love</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── RESET ────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; color: #1A1A2E; background: #fff; overflow-x: hidden; }
+
+    /* ─── BRAND TOKENS (Steph's palette) ──────────────── */
+    :root {
+      --purple-deep:  #4A2272;
+      --purple-mid:   #7B5EA7;
+      --purple-soft:  #C4B0DC;
+      --pink-hot:     #CC3470;
+      --pink-bright:  #FF6BA8;
+      --pink-blush:   #F2D5E4;
+      --black:        #1A1A2E;
+      --white:        #FFFFFF;
+      --cream:        #FDF8FB;
+      --gray-light:   #F7F3F8;
+      --gray-text:    #6B6B80;
+      --border:       #E8D8EF;
+    }
+
+    /* ─── TYPOGRAPHY ────────────────────────────────────── */
+    h1, h2, h3 { font-family: 'Playfair Display', Georgia, serif; line-height: 1.2; }
+    .script { font-family: 'Dancing Script', cursive; }
+    p { line-height: 1.78; color: var(--gray-text); }
+
+    /* ─── LAYOUT ─────────────────────────────────────────  */
+    .container { max-width: 1080px; margin: 0 auto; padding: 0 28px; }
+    .narrow    { max-width: 720px;  margin: 0 auto; padding: 0 28px; }
+
+    /* ─── BUTTONS ────────────────────────────────────────── */
+    .btn {
+      display: inline-block;
+      padding: 17px 42px;
+      border-radius: 60px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: .97rem;
+      letter-spacing: .03em;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn--primary {
+      background: linear-gradient(135deg, var(--pink-hot), #a0245a);
+      color: #fff;
+      box-shadow: 0 8px 28px rgba(204,52,112,.38);
+    }
+    .btn--primary:hover { box-shadow: 0 12px 36px rgba(204,52,112,.48); }
+    .btn--ghost-white {
+      background: transparent;
+      color: rgba(255,255,255,.85);
+      border: 1.5px solid rgba(255,255,255,.32);
+    }
+    .btn--ghost-white:hover { border-color: rgba(255,255,255,.7); color: #fff; }
+    .btn--white {
+      background: #fff;
+      color: var(--pink-hot);
+      box-shadow: 0 6px 24px rgba(0,0,0,.16);
+    }
+    .btn--white:hover { box-shadow: 0 10px 32px rgba(0,0,0,.22); }
+
+    /* ─── TAGS ───────────────────────────────────────────── */
+    .tag {
+      display: inline-block;
+      padding: 5px 16px;
+      border-radius: 40px;
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .tag--pink   { background: var(--pink-blush); color: var(--pink-hot); }
+    .tag--purple { background: rgba(74,34,114,.09); color: var(--purple-deep); }
+    .tag--white  { background: rgba(255,255,255,.14); color: rgba(255,255,255,.88); border: 1px solid rgba(255,255,255,.2); }
+
+    /* ─── NAV ────────────────────────────────────────────── */
+    .nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,.96);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 0;
+    }
+    .nav__inner { display: flex; align-items: center; justify-content: space-between; }
+    .nav__brand { display: flex; flex-direction: column; line-height: 1.1; }
+    .nav__brand .script { font-size: 1.5rem; color: var(--purple-deep); }
+    .nav__brand span { font-size: .6rem; letter-spacing: .18em; text-transform: uppercase; color: var(--gray-text); }
+    .nav__cta { font-size: .88rem; padding: 11px 26px; }
+
+    /* ─── HERO ───────────────────────────────────────────── */
+    .hero {
+      background: linear-gradient(150deg, var(--purple-deep) 0%, #2d0f4e 55%, #4a1030 100%);
+      min-height: 90vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding: 100px 0 88px;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 55% 60% at 85% 15%, rgba(255,107,168,.14) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 50% at 5% 90%,  rgba(204,52,112,.1)  0%, transparent 60%);
+      pointer-events: none;
+    }
+    /* ── HERO BACKGROUND PHOTO ─────────────────────────────
+       Replace background-image below with a couple photo.
+       Ideal: warm, intimate mood. 1920×1080px+
+       background-image: url('YOUR_HERO_PHOTO.jpg');
+    ─────────────────────────────────────────────────────── */
+    .hero__bg-photo {
+      position: absolute; inset: 0;
+      background-size: cover; background-position: center 30%;
+      opacity: .08;
+    }
+    .hero__content {
+      position: relative; z-index: 2;
+      max-width: 800px;
+    }
+    .hero__eyebrow {
+      display: inline-block;
+      padding: 6px 18px;
+      background: rgba(255,107,168,.16);
+      border: 1px solid rgba(255,107,168,.36);
+      border-radius: 40px;
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--pink-bright);
+      margin-bottom: 28px;
+    }
+    .hero h1 {
+      font-size: clamp(2.3rem, 5vw, 3.8rem);
+      color: #fff;
+      margin-bottom: 24px;
+      line-height: 1.18;
+    }
+    .hero h1 em { font-style: italic; color: var(--pink-bright); }
+    .hero__sub {
+      font-size: 1.1rem;
+      color: rgba(255,255,255,.72);
+      line-height: 1.82;
+      max-width: 640px;
+      margin-bottom: 40px;
+    }
+    .hero__actions { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; margin-bottom: 54px; }
+    .hero__trust {
+      display: flex; flex-wrap: wrap; gap: 28px;
+      border-top: 1px solid rgba(255,255,255,.1);
+      padding-top: 28px;
+    }
+    .hero__trust-item {
+      display: flex; align-items: center; gap: 8px;
+      font-size: .8rem; color: rgba(255,255,255,.55);
+    }
+    .hero__trust-item svg { flex-shrink: 0; }
+
+    /* ─── STEPH ──────────────────────────────────────────── */
+    .steph { padding: 96px 0; background: var(--cream); }
+    .steph__grid {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 72px;
+      align-items: start;
+    }
+    .steph__photo-wrap { position: relative; }
+    .steph__photo {
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 24px 64px rgba(74,34,114,.2);
+    }
+    .steph__photo-inner {
+      /* ── PHOTO PLACEHOLDER ──────────────────────────────────
+         Replace with: <img src="steph.jpg" style="width:100%;height:500px;
+         object-fit:cover;object-position:top;display:block;">
+      ─────────────────────────────────────────────────────── */
+      height: 500px;
+      background: linear-gradient(145deg, #e8d8ef, #f2d5e4);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 10px;
+      border: 2px dashed #c4a0d8;
+    }
+    .ph-icon  { font-size: 2.4rem; opacity: .4; }
+    .ph-label {
+      font-size: .72rem; font-weight: 600; letter-spacing: .08em;
+      text-transform: uppercase; color: #7b5ea7;
+      text-align: center; padding: 0 20px;
+    }
+    .steph__badge {
+      position: absolute;
+      bottom: -18px; right: -18px;
+      background: #fff;
+      border-radius: 14px;
+      padding: 18px 22px;
+      box-shadow: 0 12px 40px rgba(0,0,0,.12);
+      text-align: center;
+      min-width: 148px;
+    }
+    .steph__badge strong {
+      display: block;
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      color: var(--purple-deep);
+      line-height: 1;
+    }
+    .steph__badge span { font-size: .74rem; color: var(--gray-text); letter-spacing: .05em; }
+    .steph__text .tag { margin-bottom: 18px; }
+    .steph__text h2 { font-size: clamp(1.8rem, 3vw, 2.5rem); color: var(--black); margin-bottom: 6px; }
+    .steph__text .script { font-size: 1.35rem; color: var(--pink-hot); display: block; margin-bottom: 26px; }
+    .steph__text p { font-size: 1rem; margin-bottom: 18px; line-height: 1.84; }
+    .steph__text p strong { color: var(--black); }
+    .steph__creds { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 26px; }
+    .steph__cred {
+      display: flex; align-items: center; gap: 7px;
+      padding: 7px 14px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 40px;
+      font-size: .78rem; font-weight: 500;
+      color: var(--purple-deep);
+    }
+
+    /* ─── PROBLEM ────────────────────────────────────────── */
+    .problem { padding: 96px 0; background: var(--white); }
+    .problem__header { margin-bottom: 48px; }
+    .problem__header .tag { margin-bottom: 18px; }
+    .problem__header h2 {
+      font-size: clamp(1.9rem, 3.5vw, 2.7rem);
+      color: var(--black); margin-bottom: 20px; max-width: 680px;
+    }
+    .problem__header h2 em { color: var(--pink-hot); font-style: italic; }
+    .problem__header > p {
+      font-size: 1.05rem; max-width: 660px;
+      color: var(--gray-text); line-height: 1.84;
+    }
+    .problem__points {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 16px; margin-top: 40px;
+    }
+    .problem__point {
+      background: var(--gray-light);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 22px 24px;
+      display: flex; gap: 16px; align-items: flex-start;
+    }
+    .problem__point .dash {
+      color: var(--pink-hot); font-size: 1.1rem;
+      font-weight: 700; flex-shrink: 0; margin-top: 2px;
+    }
+    .problem__point p { font-size: .93rem; color: var(--black); line-height: 1.65; }
+    .problem__reframe {
+      margin-top: 40px;
+      padding: 28px 36px 28px 44px;
+      background: linear-gradient(135deg, var(--purple-deep), #6b3298);
+      border-radius: 14px;
+      color: rgba(255,255,255,.82);
+      font-size: 1.05rem;
+      line-height: 1.78;
+      font-style: italic;
+      position: relative;
+    }
+    .problem__reframe::before {
+      content: '"';
+      font-family: 'Playfair Display', serif;
+      font-size: 4rem; color: var(--pink-bright);
+      position: absolute; top: 10px; left: 20px;
+      line-height: 1; opacity: .5;
+    }
+    .problem__reframe p { color: rgba(255,255,255,.82); }
+    .problem__reframe strong { color: #fff; }
+
+    /* ─── WHY DIFFERENT ──────────────────────────────────── */
+    .why { padding: 96px 0; background: var(--gray-light); }
+    .why__header { text-align: center; margin-bottom: 52px; }
+    .why__header .tag { margin-bottom: 18px; }
+    .why__header h2 {
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      color: var(--black); margin-bottom: 14px;
+      max-width: 680px; margin-left: auto; margin-right: auto;
+    }
+    .why__header p { font-size: 1rem; max-width: 560px; margin: 0 auto; }
+    .why__grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;
+    }
+    .why__card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 30px 28px;
+      transition: box-shadow .25s, transform .25s;
+    }
+    .why__card:hover { box-shadow: 0 12px 40px rgba(74,34,114,.1); transform: translateY(-3px); }
+    .why__card-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem; color: var(--pink-blush);
+      font-weight: 700; line-height: 1; margin-bottom: 14px;
+    }
+    .why__card h3 {
+      font-size: 1.02rem; color: var(--black);
+      font-family: 'Inter', sans-serif; font-weight: 600;
+      margin-bottom: 10px; line-height: 1.4;
+    }
+    .why__card p { font-size: .9rem; line-height: 1.72; }
+
+    /* ─── INSIDE ─────────────────────────────────────────── */
+    .inside {
+      padding: 96px 0;
+      background: linear-gradient(145deg, var(--purple-deep) 0%, #6b3298 100%);
+      position: relative; overflow: hidden;
+    }
+    .inside::before {
+      content: '';
+      position: absolute; top: -60px; right: -60px;
+      width: 440px; height: 440px;
+      background: radial-gradient(circle, rgba(255,107,168,.16) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .inside::after {
+      content: '';
+      position: absolute; bottom: -80px; left: -80px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(204,52,112,.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .inside__inner { position: relative; z-index: 1; }
+    .inside__header { text-align: center; margin-bottom: 52px; }
+    .inside__header h2 { font-size: clamp(1.8rem, 3vw, 2.6rem); color: #fff; margin-bottom: 12px; }
+    .inside__header p { font-size: 1rem; color: rgba(255,255,255,.58); max-width: 500px; margin: 0 auto; }
+    .inside__list {
+      list-style: none;
+      max-width: 680px; margin: 0 auto;
+      display: flex; flex-direction: column; gap: 0;
+    }
+    .inside__item {
+      display: flex; align-items: flex-start; gap: 22px;
+      padding: 22px 0;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .inside__item:last-child { border-bottom: none; }
+    .inside__num {
+      font-family: 'Playfair Display', serif;
+      font-size: .72rem; font-weight: 700;
+      color: var(--pink-bright); letter-spacing: .1em;
+      flex-shrink: 0; margin-top: 3px; min-width: 22px;
+    }
+    .inside__text { font-size: .97rem; color: rgba(255,255,255,.78); line-height: 1.67; }
+    .inside__text strong { color: #fff; font-weight: 600; }
+    .inside__cta { text-align: center; margin-top: 52px; }
+
+    /* ─── WHAT CHANGES ───────────────────────────────────── */
+    .changes { padding: 96px 0; background: var(--cream); }
+    .changes__header { margin-bottom: 52px; }
+    .changes__header .tag { margin-bottom: 18px; }
+    .changes__header h2 { font-size: clamp(1.8rem, 3vw, 2.5rem); color: var(--black); margin-bottom: 14px; }
+    .changes__header p { font-size: 1rem; max-width: 600px; line-height: 1.82; }
+    .changes__steps {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 44px;
+    }
+    .changes__step {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 16px; padding: 26px 22px;
+    }
+    .changes__num {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, var(--pink-hot), #a0245a);
+      color: #fff; font-weight: 700; font-size: .88rem;
+      border-radius: 9px; display: flex; align-items: center; justify-content: center;
+      margin-bottom: 14px; font-family: 'Playfair Display', serif;
+    }
+    .changes__step h3 {
+      font-size: .93rem; font-family: 'Inter', sans-serif;
+      font-weight: 600; color: var(--black);
+      margin-bottom: 8px; line-height: 1.4;
+    }
+    .changes__step p { font-size: .83rem; line-height: 1.65; }
+
+    /* ─── GUARANTEE ──────────────────────────────────────── */
+    .guarantee { padding: 72px 0; background: var(--white); }
+    .guarantee__inner {
+      display: flex; align-items: flex-start; gap: 24px;
+      background: var(--gray-light); border: 1px solid var(--border);
+      border-radius: 18px; padding: 38px 42px;
+      max-width: 760px; margin: 0 auto;
+    }
+    .guarantee__icon { font-size: 2.4rem; flex-shrink: 0; }
+    .guarantee__text h3 {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.08rem; font-weight: 700;
+      color: var(--black); margin-bottom: 10px;
+    }
+    .guarantee__text p { font-size: .93rem; line-height: 1.76; }
+
+    /* ─── CHECKOUT ───────────────────────────────────────── */
+    .checkout {
+      padding: 96px 0;
+      background: linear-gradient(145deg, var(--black) 0%, #2d1050 55%, var(--purple-deep) 100%);
+      position: relative; overflow: hidden;
+    }
+    .checkout::before {
+      content: '';
+      position: absolute; inset: 0;
+      /* ── CHECKOUT BACKGROUND PHOTO ────────────────────────
+         Optional subtle background (opacity .07).
+         background-image: url('YOUR_PHOTO.jpg');
+      ─────────────────────────────────────────────────────── */
+      background-size: cover; background-position: center; opacity: .07;
+    }
+    .checkout__inner {
+      position: relative; z-index: 1;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 64px; align-items: start;
+    }
+    .checkout__left { }
+    .checkout__left h2 { font-size: clamp(1.8rem, 3vw, 2.4rem); color: #fff; margin-bottom: 14px; }
+    .checkout__left h2 em { font-style: italic; color: var(--pink-bright); }
+    .checkout__left > p {
+      font-size: 1rem; color: rgba(255,255,255,.6); line-height: 1.82; margin-bottom: 32px;
+    }
+    .checkout__includes { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 36px; }
+    .checkout__includes li {
+      display: flex; align-items: flex-start; gap: 12px;
+      font-size: .9rem; color: rgba(255,255,255,.75); line-height: 1.5;
+    }
+    .checkout__includes li .tick {
+      width: 20px; height: 20px;
+      background: rgba(204,52,112,.25); border: 1px solid rgba(204,52,112,.4);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-top: 1px; font-size: .65rem; color: var(--pink-bright);
+    }
+    .checkout__price { display: flex; align-items: flex-end; gap: 4px; margin-bottom: 4px; }
+    .checkout__price sup { font-size: 1.2rem; font-weight: 700; color: #fff; margin-bottom: 10px; }
+    .checkout__price strong {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.8rem; color: #fff; line-height: 1;
+    }
+    .checkout__price-note { font-size: .8rem; color: rgba(255,255,255,.38); margin-bottom: 6px; }
+
+    /* ─── FORM (right column) ──────────────────────────────
+       DEVELOPER: Replace this styled placeholder with your
+       actual payment processor embed (Kajabi / Stripe / etc).
+       Field structure mirrors the original page exactly.
+    ─────────────────────────────────────────────────────── */
+    .form-card {
+      background: var(--white);
+      border-radius: 20px; padding: 36px 32px;
+      box-shadow: 0 28px 72px rgba(0,0,0,.35);
+    }
+    .form-card__label {
+      font-size: .68rem; font-weight: 700; letter-spacing: .15em;
+      text-transform: uppercase; color: var(--gray-text); margin-bottom: 24px;
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+    .form-group { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px; }
+    .form-group label { font-size: .74rem; font-weight: 600; color: var(--black); letter-spacing: .02em; }
+    .form-group input {
+      padding: 12px 14px;
+      border: 1.5px solid var(--border); border-radius: 8px;
+      font-family: 'Inter', sans-serif; font-size: .92rem;
+      color: var(--black); outline: none; transition: border-color .2s;
+    }
+    .form-group input:focus { border-color: var(--purple-mid); }
+    .form-divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+    .form-product {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 16px;
+      background: var(--gray-light); border: 1px solid var(--border);
+      border-radius: 10px; margin-bottom: 20px;
+    }
+    .form-product-name { font-size: .88rem; font-weight: 600; color: var(--black); }
+    .form-product-price {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem; font-weight: 700; color: var(--purple-deep);
+    }
+    .payment-placeholder {
+      background: var(--gray-light); border: 1.5px dashed var(--border);
+      border-radius: 10px; padding: 22px; text-align: center; margin-bottom: 16px;
+    }
+    .payment-placeholder .lock { font-size: 1.2rem; margin-bottom: 6px; }
+    .payment-placeholder p { font-size: .76rem; color: var(--gray-text); line-height: 1.55; }
+    .form-submit {
+      width: 100%; padding: 16px;
+      background: linear-gradient(135deg, var(--pink-hot), #a0245a);
+      color: #fff; border: none; border-radius: 60px;
+      font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 700;
+      cursor: pointer; letter-spacing: .02em;
+      transition: box-shadow .2s, transform .2s;
+      box-shadow: 0 8px 24px rgba(204,52,112,.38);
+    }
+    .form-submit:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(204,52,112,.48); }
+    .form-secure {
+      text-align: center; font-size: .72rem; color: var(--gray-text);
+      margin-top: 12px; display: flex; align-items: center; justify-content: center; gap: 5px;
+    }
+    .form-links { display: flex; justify-content: center; gap: 16px; margin-top: 12px; }
+    .form-links a { font-size: .71rem; color: var(--gray-text); text-decoration: none; }
+    .form-links a:hover { color: var(--black); }
+
+    /* ─── FOOTER ─────────────────────────────────────────── */
+    .footer {
+      background: var(--black); padding: 32px 0;
+      text-align: center; border-top: 1px solid rgba(255,255,255,.05);
+    }
+    .footer .script { font-size: 1.5rem; color: rgba(255,255,255,.55); }
+    .footer__links { display: flex; justify-content: center; gap: 20px; margin: 14px 0 10px; }
+    .footer__links a { font-size: .74rem; color: rgba(255,255,255,.3); text-decoration: none; }
+    .footer__links a:hover { color: rgba(255,255,255,.65); }
+    .footer__copy { font-size: .71rem; color: rgba(255,255,255,.2); }
+
+    /* ─── FADE IN ────────────────────────────────────────── */
+    .fade-in { opacity: 0; transform: translateY(22px); transition: opacity .58s ease, transform .58s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* ─── RESPONSIVE ─────────────────────────────────────── */
+    @media (max-width: 880px) {
+      .steph__grid { grid-template-columns: 1fr; }
+      .steph__photo-wrap { max-width: 340px; margin: 0 auto; }
+      .why__grid { grid-template-columns: 1fr; }
+      .changes__steps { grid-template-columns: 1fr 1fr; }
+      .checkout__inner { grid-template-columns: 1fr; gap: 44px; }
+      .problem__points { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .nav__cta { display: none; }
+      .hero { padding: 72px 0 60px; min-height: auto; }
+      .hero__actions { flex-direction: column; align-items: flex-start; }
+      .changes__steps { grid-template-columns: 1fr; }
+      .guarantee__inner { flex-direction: column; padding: 28px 24px; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════ NAV ═══════════════════════════════ -->
+<nav class="nav">
+  <div class="container">
+    <div class="nav__inner">
+      <div class="nav__brand">
+        <span class="script">A Flood of Love</span>
+        <span>Marriage Coaching</span>
+      </div>
+      <a href="#checkout" class="btn btn--primary nav__cta">Get The Playbook — $29</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ════════════════ HERO ══════════════════════════════ -->
+<section class="hero">
+  <div class="hero__bg-photo"></div>
+  <div class="container">
+    <div class="hero__content">
+      <span class="hero__eyebrow">✦ Something I walk every husband through in my practice</span>
+      <h1>
+        You want your wife<br/>
+        to want you again.<br/>
+        <em>That's not too much to ask.</em>
+      </h1>
+      <p class="hero__sub">
+        Between the career, the kids, and the relentless pace of a full life — the physical connection in your marriage has quietly taken a back seat. You've noticed. You've probably tried a few things. This is the guide that cuts through it — written by a therapist who has sat across from hundreds of men in exactly your position.
+      </p>
+      <div class="hero__actions">
+        <a href="#checkout" class="btn btn--primary" style="font-size:1rem;padding:18px 44px;">Get The Playbook — $29</a>
+        <a href="#about" class="btn btn--ghost-white">Who wrote this?</a>
+      </div>
+      <div class="hero__trust">
+        <div class="hero__trust-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+          17 years of real sessions behind every word
+        </div>
+        <div class="hero__trust-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+          Instant access · 10-minute read
+        </div>
+        <div class="hero__trust-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+          100% money-back guarantee
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ STEPH (highest trust signal — goes second) ════ -->
+<section class="steph" id="about">
+  <div class="container">
+    <div class="steph__grid">
+      <div class="steph__photo-wrap fade-in">
+        <div class="steph__photo">
+          <!-- REPLACE WITH: <img src="steph-portrait.jpg" style="width:100%;height:500px;object-fit:cover;object-position:top;display:block;"> -->
+          <div class="steph__photo-inner">
+            <div class="ph-icon">🤍</div>
+            <div class="ph-label">Stephanie Flood<br/>Portrait · Photo Here</div>
+          </div>
+        </div>
+        <div class="steph__badge">
+          <strong>17+</strong>
+          <span>Years in Practice</span>
+        </div>
+      </div>
+
+      <div class="steph__text fade-in">
+        <span class="tag tag--pink">The Expert Behind This</span>
+        <h2>Hi, I'm Stephanie Flood.</h2>
+        <span class="script">Licensed Marriage Therapist · Wife · Mom of 4</span>
+        <p>Every week in my practice, I sit across from men who are frustrated, invisible, and quietly wondering if this is just what marriage becomes. Men who are not failing at anything else in life — but who have run completely out of ideas for how to close this particular gap.</p>
+        <p>I've spent 17 years working with couples, and I know both sides of this. I know what men are actually asking for, and I know exactly what women respond to. Those two things are not as far apart as you might think. <strong>The Guy's Game Plan is the framework I walk men through in my practice — direct, practical, and grounded in real work with real marriages.</strong></p>
+        <p>Instead of paying for a session in my office, you get the same clarity, the same moves, for $29.</p>
+        <div class="steph__creds">
+          <div class="steph__cred">🎓 Licensed Therapist</div>
+          <div class="steph__cred">💍 Married 23 Years</div>
+          <div class="steph__cred">👨‍👩‍👧‍👦 Mom of 4</div>
+          <div class="steph__cred">❤️ 500+ Couples Helped</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ PROBLEM ═══════════════════════════ -->
+<section class="problem">
+  <div class="container">
+    <div class="problem__header fade-in">
+      <span class="tag tag--purple">What's actually going on</span>
+      <h2>The distance in your marriage<br/>isn't a verdict. It's just a <em>gap.</em></h2>
+      <p>This didn't happen because something broke. It happened because you're both running at full capacity — career, kids, life — and the marriage quietly got the leftover energy, which wasn't much. That's not a character flaw. It's the math of a demanding life. The problem is that when you try to close the gap, nothing seems to land. Conversations go sideways. Initiating physically feels like a gamble. You end up feeling further away than when you started.</p>
+    </div>
+    <div class="problem__points fade-in">
+      <div class="problem__point">
+        <span class="dash">—</span>
+        <p>You've stopped initiating as much because the rejection stings more than saying nothing does</p>
+      </div>
+      <div class="problem__point">
+        <span class="dash">—</span>
+        <p>Nothing you do quite lands the way it used to — and you're not sure what changed</p>
+      </div>
+      <div class="problem__point">
+        <span class="dash">—</span>
+        <p>You can't tell if it's something you did, something she's going through, or just what long marriages look like now</p>
+      </div>
+      <div class="problem__point">
+        <span class="dash">—</span>
+        <p>You still love her. You just want her to feel close to you again — and want to be</p>
+      </div>
+    </div>
+    <div class="problem__reframe fade-in">
+      <p>What's missing isn't effort — you've already tried effort. What's missing is a clear set of moves, specific to how long-term marriages actually work. <strong>That's exactly what this playbook gives you.</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ WHY DIFFERENT ════════════════════ -->
+<section class="why">
+  <div class="container">
+    <div class="why__header fade-in">
+      <span class="tag tag--pink">Why this works</span>
+      <h2>Most advice tells men to communicate more.<br/>This tells you what to actually say and do.</h2>
+      <p>You've tried patience. You've tried talking. Here's what makes this different.</p>
+    </div>
+    <div class="why__grid fade-in">
+      <div class="why__card">
+        <div class="why__card-num">01</div>
+        <h3>Built for how men actually think</h3>
+        <p>No therapy homework. No feelings journal. No vague instruction to "open up more." Clear, direct moves you can apply without a workshop, a mediator, or a weekend retreat.</p>
+      </div>
+      <div class="why__card">
+        <div class="why__card-num">02</div>
+        <h3>17 years of real sessions behind it</h3>
+        <p>This isn't content written for the internet. It's what Steph has coached husbands to do inside her practice, week after week — with couples who thought the connection was gone for good.</p>
+      </div>
+      <div class="why__card">
+        <div class="why__card-num">03</div>
+        <h3>You don't need her to take a course with you</h3>
+        <p>When you shift how you show up, the dynamic between you shifts. You don't need her participation, her agreement, or a scheduled conversation. You make a move — she naturally responds.</p>
+      </div>
+      <div class="why__card">
+        <div class="why__card-num">04</div>
+        <h3>Ten minutes. Real application today.</h3>
+        <p>You're not looking for a weekend project. This respects your time — one sitting, the full picture, and something you can put into practice the same evening.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ INSIDE ════════════════════════════ -->
+<section class="inside">
+  <div class="container">
+    <div class="inside__inner">
+      <div class="inside__header fade-in">
+        <span class="tag tag--white">Inside the playbook</span>
+        <h2>10 minutes. A complete picture.<br/>Something you use tonight.</h2>
+        <p>Every section built around one question: what can he do with this today?</p>
+      </div>
+      <ul class="inside__list fade-in">
+        <li class="inside__item">
+          <span class="inside__num">01</span>
+          <span class="inside__text"><strong>How attraction actually works in a long marriage</strong> — and why what worked at the start doesn't always land a decade in</span>
+        </li>
+        <li class="inside__item">
+          <span class="inside__num">02</span>
+          <span class="inside__text"><strong>The moves that rebuild desire without pressure</strong> — no awkward conversations, no negotiating, no scorecards</span>
+        </li>
+        <li class="inside__item">
+          <span class="inside__num">03</span>
+          <span class="inside__text"><strong>Why respect unlocks everything else</strong> — and the specific ways to earn it that most men haven't tried</span>
+        </li>
+        <li class="inside__item">
+          <span class="inside__num">04</span>
+          <span class="inside__text"><strong>How to lead in your marriage</strong> in a way that makes her want to move toward you — not away</span>
+        </li>
+        <li class="inside__item">
+          <span class="inside__num">05</span>
+          <span class="inside__text"><strong>The 24-hour shift</strong> — the single move you can make this week that changes the energy between you almost immediately</span>
+        </li>
+      </ul>
+      <div class="inside__cta fade-in">
+        <a href="#checkout" class="btn btn--white" style="font-size:1rem;padding:18px 44px;">Get The Playbook — $29</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ WHAT CHANGES ══════════════════════ -->
+<section class="changes">
+  <div class="container">
+    <div class="changes__header fade-in">
+      <span class="tag tag--purple">After you go through it</span>
+      <h2>Here's what most men notice first.</h2>
+      <p>The shift doesn't start in the bedroom. It starts in the energy between you — the way she responds, the way conversations feel. The physical follows naturally from there.</p>
+    </div>
+    <div class="changes__steps fade-in">
+      <div class="changes__step">
+        <div class="changes__num">1</div>
+        <h3>Tonight — access and read it</h3>
+        <p>Instant access the moment you check out. One sitting. Ten minutes. Full picture.</p>
+      </div>
+      <div class="changes__step">
+        <div class="changes__num">2</div>
+        <h3>This week — apply one move</h3>
+        <p>You don't implement everything at once. One specific thing, in your real life, this week.</p>
+      </div>
+      <div class="changes__step">
+        <div class="changes__num">3</div>
+        <h3>Within days — something shifts</h3>
+        <p>The tension softens. She's warmer. You feel the dynamic change before you can explain it.</p>
+      </div>
+      <div class="changes__step">
+        <div class="changes__num">4</div>
+        <h3>Over weeks — it compounds</h3>
+        <p>Respect, closeness, and intimacy build on each other. You're actually together again — not just getting through each other's day.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ GUARANTEE ═════════════════════════ -->
+<section class="guarantee">
+  <div class="container">
+    <div class="guarantee__inner fade-in">
+      <div class="guarantee__icon">🛡️</div>
+      <div class="guarantee__text">
+        <h3>100% Money-Back Guarantee</h3>
+        <p>Go through The Guy's Game Plan and put the steps into practice. If you don't feel a genuine shift — not a miracle, just something real and noticeable — email us and you'll get every dollar back. No questions, no hoops, no judgment. We're confident enough in this work that we don't need to hold anyone.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ CHECKOUT ══════════════════════════ -->
+<section class="checkout" id="checkout">
+  <div class="container">
+    <div class="checkout__inner">
+
+      <div class="checkout__left fade-in">
+        <span class="tag tag--white" style="margin-bottom:22px;display:inline-block;">The Guy's Game Plan</span>
+        <h2>Your wife misses you too.<br/><em>She just doesn't know how to say it.</em></h2>
+        <p>This is the guide she can't give you, written by someone who works with both of you. Everything in one sitting. Everything you need to start tonight.</p>
+        <ul class="checkout__includes">
+          <li><span class="tick">✓</span>The complete Guy's Game Plan playbook</li>
+          <li><span class="tick">✓</span>The 24-hour shift — a move you can use tonight</li>
+          <li><span class="tick">✓</span>The respect-desire framework explained clearly</li>
+          <li><span class="tick">✓</span>Instant digital access — no waiting</li>
+          <li><span class="tick">✓</span>100% money-back guarantee</li>
+        </ul>
+        <div class="checkout__price">
+          <sup>$</sup><strong>29</strong>
+        </div>
+        <p class="checkout__price-note">One-time payment · Instant access · No subscription</p>
+        <p style="font-size:.82rem;color:rgba(255,255,255,.35);font-style:italic;line-height:1.65;margin-top:4px;">Less than a takeout order. More useful than a session you both have to agree on.</p>
+      </div>
+
+      <div class="fade-in">
+        <div class="form-card">
+          <div class="form-card__label">Secure Checkout</div>
+
+          <!-- ══ DEVELOPER: Replace below with your payment embed ══ -->
+          <div class="form-row">
+            <div class="form-group">
+              <label for="fn">First Name</label>
+              <input type="text" id="fn" placeholder="First Name" />
+            </div>
+            <div class="form-group">
+              <label for="ln">Last Name</label>
+              <input type="text" id="ln" placeholder="Last Name" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="em">Email Address</label>
+            <input type="email" id="em" placeholder="your@email.com" />
+          </div>
+
+          <hr class="form-divider" />
+
+          <div class="form-product">
+            <span class="form-product-name">A Guy's Game Plan</span>
+            <span class="form-product-price">$29</span>
+          </div>
+
+          <div class="payment-placeholder">
+            <div class="lock">🔒</div>
+            <p>Secure payment · Card details encrypted<br/>
+            <em style="font-size:.68rem;">[Payment form embeds here — Kajabi / Stripe / ThriveCart]</em></p>
+          </div>
+
+          <button class="form-submit" type="submit">Get Instant Access — $29</button>
+
+          <div class="form-secure">🔒 &nbsp;100% secure &amp; safe payments</div>
+          <div class="form-links">
+            <a href="https://training.afloodoflove.com/privacy-page">Privacy Policy</a>
+            <a href="https://training.afloodoflove.com/terms-of-services">Terms of Service</a>
+          </div>
+          <!-- ══ END payment embed ════════════════════════════════ -->
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ FOOTER ════════════════════════════ -->
+<footer class="footer">
+  <div class="container">
+    <span class="script">A Flood of Love</span>
+    <div class="footer__links">
+      <a href="https://training.afloodoflove.com/privacy-page">Privacy Policy</a>
+      <a href="https://training.afloodoflove.com/terms-of-services">Terms of Service</a>
+      <a href="#">Contact</a>
+    </div>
+    <p class="footer__copy">© 2025 A Flood of Love · All Rights Reserved</p>
+  </div>
+</footer>
+
+<!-- ════════════════ SCRIPTS ═══════════════════════════ -->
+<script>
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+  document.querySelectorAll('.why__card').forEach((c,i) => c.style.transitionDelay = `${i*.1}s`);
+  document.querySelectorAll('.changes__step').forEach((c,i) => c.style.transitionDelay = `${i*.08}s`);
+</script>
+</body>
+</html>
